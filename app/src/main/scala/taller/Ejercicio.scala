@@ -6,7 +6,25 @@ class Ejercicio() {
   // anterior aplicando g. Cada término se eleva a la p y se combina con f.
   // Tal como está devuelve siempre 0 y las pruebas quedan en rojo.
   def opCurrified(n: Int)(p: Int)(f: (Int, Int) => Int)(g: Int => Int): Int = {
-    0 // Completar
+    def recorrer(actual: Int, restante: Int): Int = {
+      if (restante == 0) {
+        0
+      } else {
+        f(potencia(actual, p), recorrer(g(actual), restante - 1))
+      }
+
+    }
+
+    def potencia(base: Int, exp: Int): Int = {
+      if (exp == 0){ 
+        1
+      }
+      else {
+        base * potencia(base, exp - 1)
+      }
+    }
+
+    recorrer(1, n) 
   }
 
   // Punto 2. La suma de la sesión con tres grupos de parámetros.
@@ -47,4 +65,5 @@ class Ejercicio() {
   def sumador(n: Int): Int => Int = {
     (x: Int) => 0 // Completar
   }
+
 }
