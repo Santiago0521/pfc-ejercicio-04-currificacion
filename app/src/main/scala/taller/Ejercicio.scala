@@ -7,8 +7,8 @@ class Ejercicio() {
   // Tal como está devuelve siempre 0 y las pruebas quedan en rojo.
   def opCurrified(n: Int)(p: Int)(f: (Int, Int) => Int)(g: Int => Int): Int = {
     def recorrer(actual: Int, restante: Int): Int = {
-      if (restante == 0) {
-        0
+      if (restante == 1) {
+        1
       } else {
         f(potencia(actual, p), recorrer(g(actual), restante - 1))
       }
