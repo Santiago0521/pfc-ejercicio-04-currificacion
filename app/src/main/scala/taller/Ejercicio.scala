@@ -2,68 +2,74 @@ package taller
 
 class Ejercicio() {
 
-  // Punto 1. Recorre n términos: el primero es 1 y cada uno sale del
-  // anterior aplicando g. Cada término se eleva a la p y se combina con f.
-  // Tal como está devuelve siempre 0 y las pruebas quedan en rojo.
+  // Punto 1
   def opCurrified(n: Int)(p: Int)(f: (Int, Int) => Int)(g: Int => Int): Int = {
     def recorrer(actual: Int, restante: Int): Int = {
       if (restante == 1) {
-        1
+        potencia(actual, p)
       } else {
         f(potencia(actual, p), recorrer(g(actual), restante - 1))
       }
-
     }
 
     def potencia(base: Int, exp: Int): Int = {
-      if (exp == 0){ 
+      if (exp == 0) {
         1
-      }
-      else {
+      } else {
         base * potencia(base, exp - 1)
       }
     }
 
-    recorrer(1, n) 
+    recorrer(1, n)
   }
 
-  // Punto 2. La suma de la sesión con tres grupos de parámetros.
+  // Punto 2
   def suma4(f: Int => Int)(prox: Int => Int)(a: Int, b: Int): Int = {
-    0 // Completar
+    if (a > b) {
+      0
+    } else {
+      f(a) + suma4(f)(prox)(prox(a), b)
+    }
   }
 
-  // suma4 con f y prox ya fijados: cuadrados de uno en uno.
   def sumaCuadradosSuc: (Int, Int) => Int = {
-    (a, b) => 0 // Completar con una aplicación parcial de suma4
+    (a, b) => suma4(x => x * x)(x => x + 1)(a, b)
   }
 
-  // Punto 3. La operación y su valor inicial en los dos primeros grupos.
+  // Punto 3
   def reducirC(op: (Int, Int) => Int)(inicio: Int)
               (f: Int => Int, prox: Int => Int)
               (a: Int, b: Int): Int = {
-    0 // Completar
+    if (a > b) {
+      inicio
+    } else {
+      op(f(a), reducirC(op)(inicio)(f, prox)(prox(a), b))
+    }
   }
 
-  // producto y factorialHOF se escriben con reducirC y nada más.
   def producto(f: Int => Int, prox: Int => Int, a: Int, b: Int): Int = {
-    0 // Completar
+    reducirC((x, y) => x * y)(1)(f, prox)(a, b)
   }
 
   def factorialHOF(n: Int): Int = {
-    0 // Completar
+    producto(x => x, x => x + 1, 1, n)
   }
 
-  // Punto 4. Funciones que devuelven funciones.
+  // Punto 4
   def componer(f: Int => Int)(g: Int => Int): Int => Int = {
-    (x: Int) => 0 // Completar
+    (x: Int) => f(g(x))
   }
 
   def aplicarN(f: Int => Int)(n: Int): Int => Int = {
-    (x: Int) => 0 // Completar
+    if (n == 0) {
+      (x: Int) => x
+    } else {
+      (x: Int) => f(aplicarN(f)(n - 1)(x))
+    }
   }
 
   def sumador(n: Int): Int => Int = {
-    (x: Int) => 0 // Completar
+    (x: Int) => x + n
   }
 
 }
